@@ -1,0 +1,34 @@
+{
+  "name": "slotio-etkinlik-bot",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n api,web,bot \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:bot\"",
+    "dev:server": "nodemon server/index.js",
+    "dev:client": "vite --config client/vite.config.js",
+    "dev:bot": "nodemon bot/index.js",
+    "start": "node server/index.js",
+    "bot": "node bot/index.js",
+    "migrate": "node server/migrate.js",
+    "seed": "node server/seed.js",
+    "channel-id": "node server/scripts/resolve-channel-id.js",
+    "build:client": "vite build --config client/vite.config.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "nodemon": "^3.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "vite": "^5.4.11"
+  }
+}

@@ -1,0 +1,252 @@
+:root {
+  --bg: #0a0e17;
+  --card: #121a2b;
+  --border: #1e2d4a;
+  --text: #e8f0ff;
+  --muted: #8ba3c7;
+  --neon: #00f5a0;
+  --neon-dim: #00c77d;
+  --danger: #ff4d6d;
+  --warn: #ffc857;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+h1, h2, h3 {
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  color: var(--neon);
+  font-size: 1rem;
+}
+
+.standings li {
+  list-style: none;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+
+.standings li:last-child {
+  border-bottom: none;
+}
+
+.standings .pos {
+  color: var(--neon);
+  font-weight: 700;
+  min-width: 24px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon), var(--neon-dim));
+  color: #04120c;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--neon);
+  border: 1px solid var(--neon);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0d1422;
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+}
+
+.nav-tabs button {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-tabs button.active {
+  border-color: var(--neon);
+  color: var(--neon);
+  box-shadow: 0 0 12px rgba(0, 245, 160, 0.2);
+}
+
+.match-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.match-row .match-no {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.team.winner {
+  color: var(--neon);
+  font-weight: 700;
+}
+
+.team.loser {
+  opacity: 0.55;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-active {
+  background: rgba(0, 245, 160, 0.15);
+  color: var(--neon);
+}
+
+.badge-inactive {
+  background: rgba(255, 77, 109, 0.15);
+  color: var(--danger);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.admin-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.admin-grid {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .admin-grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--neon);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.select-row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.select-row select {
+  padding: 10px;
+  border-radius: 8px;
+  background: #0d1422;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.loading {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px;
+}
