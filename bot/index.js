@@ -1,5 +1,6 @@
 require('dotenv').config();
 const { Telegraf, Markup } = require('telegraf');
+const { isAdminTelegram, getAdminTelegramIds } = require('../server/config/adminIds');
 
 if (!process.env.BOT_TOKEN) {
   console.error('BOT_TOKEN eksik!');
@@ -8,7 +9,14 @@ if (!process.env.BOT_TOKEN) {
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const webAppUrl = process.env.WEBAPP_URL || 'http://localhost:5173';
-const channelUrl = process.env.CHANNEL_URL || 'https://t.me/';
+const adminUrl = `${webAppUrl.replace(/\/$/, '')}/admin`;
+
+function adminOnly(ctx, next) {
+  if (!isAdminTelegram(ctx.from?.id)) {
+    return ctx.reply('Bu komut sadece yetkili adminler icindir.');
+  }
+  return next();
+}
 
 bot.start(async (ctx) => {
   await ctx.reply(
@@ -28,8 +36,15 @@ bot.command('etkinlik', async (ctx) => {
   );
 });
 
+bot.command('admin', adminOnly, async (ctx) => {
+  await ctx.reply(
+    `Backoffice (local):\n${adminUrl}\n\nGiris icin .env dosyasindaki ADMIN_PASSWORD kullanilir.`,
+    { disable_web_page_preview: true }
+  );
+});
+
 bot.launch();
-console.log('Telegram bot basladi.');
+console.log('Telegram bot basladi. Admin TG:', getAdminTelegramIds().join(', ') || '(yok)');
 
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));

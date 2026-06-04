@@ -43,7 +43,8 @@ npm run dev
 | `VITE_CHANNEL_URL` | Mini app “Kanala Git” linki |
 | `WEBAPP_URL` | Mini app URL (dev: `http://localhost:5173`) |
 | `DATABASE_URL` | PostgreSQL bağlantı dizesi |
-| `ADMIN_PASSWORD` | Admin panel şifresi |
+| `ADMIN_PASSWORD` | Backoffice şifresi (kullanıcı adı yok) |
+| `ADMIN_TELEGRAM_IDS` | Virgülle ayrılmış admin Telegram ID (`/admin` bot komutu) |
 | `JWT_SECRET` | Admin JWT secret |
 | `PORT` | API portu (varsayılan 3000) |
 
