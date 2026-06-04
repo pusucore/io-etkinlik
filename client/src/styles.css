@@ -26,11 +26,79 @@ body {
   min-height: 100vh;
 }
 
+.app,
 .app-shell {
   max-width: 480px;
   margin: 0 auto;
   padding: 16px;
   padding-bottom: 80px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  color: var(--neon);
+  font-size: 1.5rem;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tabs button {
+  flex: 1 1 auto;
+  min-width: 70px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.tabs button.active {
+  border-color: var(--neon);
+  color: var(--neon);
+  box-shadow: 0 0 10px rgba(0, 245, 160, 0.15);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rounds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.rounds span {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.admin-embed .admin-shell {
+  padding: 0;
+  max-width: 100%;
 }
 
 h1, h2, h3 {
