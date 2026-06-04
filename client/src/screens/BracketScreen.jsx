@@ -1,30 +1,51 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../api';
+import { HAS_API } from '../config';
 
 const STAGE_ORDER = [
-  'round_of_32',
-  'round_of_16',
-  'quarter_final',
-  'semi_final',
-  'third_place',
-  'final',
+  { key: 'round_of_32', label: 'Son 32' },
+  { key: 'round_of_16', label: 'Son 16' },
+  { key: 'quarter_final', label: 'Çeyrek Final' },
+  { key: 'semi_final', label: 'Yarı Final' },
+  { key: 'third_place', label: 'Üçüncülük' },
+  { key: 'final', label: 'Final' },
 ];
 
 export default function BracketScreen() {
   const [stages, setStages] = useState({});
   const [champion, setChampion] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
+    if (!HAS_API) {
+      setEmpty(true);
+      setLoading(false);
+      return;
+    }
     apiFetch('/api/bracket')
       .then((d) => {
-        setStages(d.stages || {});
+        const s = d.stages || {};
+        setStages(s);
         setChampion(d.champion);
+        const hasMatch = Object.values(s).some((arr) => arr?.length > 0);
+        setEmpty(!hasMatch && !d.champion);
       })
+      .catch(() => setEmpty(true))
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p className="loading">Bracket yükleniyor...</p>;
+
+  if (empty) {
+    return (
+      <div className="card">
+        <p style={{ textAlign: 'center', color: 'var(--muted)' }}>
+          Bracket henüz oluşturulmadı.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -38,12 +59,11 @@ export default function BracketScreen() {
         </div>
       )}
 
-      {STAGE_ORDER.map((stage) => {
-        const matches = stages[stage];
+      {STAGE_ORDER.map(({ key, label }) => {
+        const matches = stages[key];
         if (!matches?.length) return null;
-        const label = matches[0].stageLabel || stage;
         return (
-          <div key={stage} className="card">
+          <div key={key} className="card">
             <h3>{label}</h3>
             {matches.map((m) => (
               <MatchRow key={m.matchNo} match={m} />

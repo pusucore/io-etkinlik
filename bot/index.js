@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '../.env') });
 const { Telegraf, Markup } = require('telegraf');
 const { isAdminTelegram, getAdminTelegramIds } = require('../server/config/adminIds');
 
@@ -8,7 +8,7 @@ if (!process.env.BOT_TOKEN) {
 }
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const webAppUrl = process.env.WEBAPP_URL || 'http://localhost:5173';
+const webAppUrl = process.env.WEBAPP_URL || 'https://pusucore.github.io/io-etkinlik/';
 const adminUrl = `${webAppUrl.replace(/\/$/, '')}/admin`;
 
 function adminOnly(ctx, next) {

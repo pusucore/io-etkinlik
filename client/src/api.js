@@ -1,23 +1,46 @@
-const API_BASE = import.meta.env.VITE_API_URL || '';
+import { API_BASE_URL } from './config';
+import { getInitData } from './telegram';
 
-function getInitData() {
-  return window.Telegram?.WebApp?.initData || '';
+function apiUrl(path) {
+  const p = path.startsWith('/') ? path : `/${path}`;
+  return `${API_BASE_URL}${p}`;
+}
+
+function withInitDataBody(options = {}) {
+  const method = (options.method || 'GET').toUpperCase();
+  if (method === 'GET' || method === 'HEAD') return options;
+
+  let payload = {};
+  if (options.body) {
+    try {
+      payload = JSON.parse(options.body);
+    } catch {
+      payload = {};
+    }
+  }
+  const initData = getInitData();
+  if (initData) payload.initData = initData;
+
+  return { ...options, body: JSON.stringify(payload) };
 }
 
 export function apiHeaders(extra = {}) {
-  return {
+  const headers = {
     'Content-Type': 'application/json',
-    'X-Telegram-Init-Data': getInitData(),
     ...extra,
   };
+  const initData = getInitData();
+  if (initData) headers['X-Telegram-Init-Data'] = initData;
+  return headers;
 }
 
 export async function apiFetch(path, options = {}) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
+  const merged = withInitDataBody(options);
+  const res = await fetch(apiUrl(path), {
+    ...merged,
     headers: {
       ...apiHeaders(),
-      ...(options.headers || {}),
+      ...(merged.headers || {}),
     },
   });
   const data = await res.json().catch(() => ({}));
@@ -36,13 +59,16 @@ export async function adminFetch(path, token, options = {}) {
   const baseHeaders = token
     ? adminHeaders(token)
     : { 'Content-Type': 'application/json' };
-  const res = await fetch(`${API_BASE}${path}`, {
+  const res = await fetch(apiUrl(path), {
     ...options,
     headers: {
       ...baseHeaders,
       ...(options.headers || {}),
     },
   });
+  if (path.includes('/export') && res.ok) {
+    return res;
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || res.statusText);
   return data;

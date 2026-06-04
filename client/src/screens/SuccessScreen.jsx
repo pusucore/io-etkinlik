@@ -4,31 +4,29 @@ export default function SuccessScreen({ user, onContinue }) {
     : '-';
 
   return (
-    <div className="app-shell">
-      <h1>Katılımın alındı</h1>
-      <p className="subtitle">Turnuva ekranına geçebilirsin.</p>
+    <div className="card">
+      <h3>Katılımın alındı</h3>
+      <p className="subtitle">Diğer sekmelerden turnuvayı takip edebilirsin.</p>
 
-      <div className="card">
-        <p>
-          <strong>Telegram:</strong>{' '}
-          {user.telegramUsername ? `@${user.telegramUsername}` : user.telegramFirstName}
-        </p>
-        <p>
-          <strong>Slotio:</strong> {user.slotioUsername}
-        </p>
-        <p>
-          <strong>Katılım:</strong> {date}
-        </p>
-        <p>
-          <strong>Bonus:</strong>{' '}
-          <span className={user.bonusEligible ? 'badge badge-active' : 'badge badge-inactive'}>
-            {user.bonusEligible ? 'Aktif' : 'Pasif'}
-          </span>
-        </p>
-      </div>
+      <p>
+        <strong>Telegram:</strong>{' '}
+        {user.telegramUsername ? `@${user.telegramUsername}` : user.telegramFirstName}
+      </p>
+      <p>
+        <strong>Slotio:</strong> {user.slotioUsername}
+      </p>
+      <p>
+        <strong>Katılım:</strong> {date}
+      </p>
+      <p>
+        <strong>Bonus:</strong>{' '}
+        <span className={user.bonusEligible ? 'badge badge-active' : 'badge badge-inactive'}>
+          {user.bonusEligible ? 'Aktif' : 'Pasif'}
+        </span>
+      </p>
 
       <button type="button" className="btn btn-primary" onClick={onContinue}>
-        Turnuvaya Git
+        Tamam
       </button>
     </div>
   );

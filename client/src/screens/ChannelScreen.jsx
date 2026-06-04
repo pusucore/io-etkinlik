@@ -1,8 +1,8 @@
 export default function ChannelScreen({ channelUrl, onCheck, loading }) {
   return (
-    <div className="app-shell">
-      <h1>Kanal Takibi</h1>
-      <p className="subtitle">
+    <div className="card">
+      <h3>Kanal takibi</h3>
+      <p className="subtitle" style={{ marginBottom: 16 }}>
         Katılmak için Telegram kanalımızı takip etmelisin.
       </p>
 

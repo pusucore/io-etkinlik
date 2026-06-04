@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { adminFetch } from '../api';
+import { API_BASE_URL } from '../config';
 import ConfirmModal from './ConfirmModal';
 
 export default function AdminUsers({ token }) {
@@ -17,7 +18,7 @@ export default function AdminUsers({ token }) {
   }, [token]);
 
   async function exportCsv() {
-    const res = await fetch('/api/admin/users/export', {
+    const res = await fetch(`${API_BASE_URL}/api/admin/users/export`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const blob = await res.blob();

@@ -19,7 +19,7 @@ export default function AdminApp() {
   function onLogin(t) {
     localStorage.setItem('slotio_admin_token', t);
     setToken(t);
-    navigate('/admin');
+    navigate('/admin', { replace: true });
   }
 
   function logout() {
@@ -50,12 +50,12 @@ export default function AdminApp() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<AdminDashboard token={token} />} />
-        <Route path="/users" element={<AdminUsers token={token} />} />
-        <Route path="/groups" element={<AdminGroups token={token} />} />
-        <Route path="/best-thirds" element={<AdminBestThirds token={token} />} />
-        <Route path="/bracket-setup" element={<AdminBracketSetup token={token} />} />
-        <Route path="/matches" element={<AdminMatches token={token} />} />
+        <Route index element={<AdminDashboard token={token} />} />
+        <Route path="users" element={<AdminUsers token={token} />} />
+        <Route path="groups" element={<AdminGroups token={token} />} />
+        <Route path="best-thirds" element={<AdminBestThirds token={token} />} />
+        <Route path="bracket-setup" element={<AdminBracketSetup token={token} />} />
+        <Route path="matches" element={<AdminMatches token={token} />} />
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </div>

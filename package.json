@@ -3,32 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently -n api,web,bot \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:bot\"",
-    "dev:server": "nodemon server/index.js",
-    "dev:client": "vite --config client/vite.config.js",
-    "dev:bot": "nodemon bot/index.js",
-    "start": "node server/index.js",
+    "install:all": "npm install --prefix client && npm install --prefix server && npm install",
+    "dev": "concurrently -n api,web,bot \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"npm run bot\"",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build": "npm run build --prefix client",
+    "preview": "npm run preview --prefix client",
+    "deploy:pages": "npm run build --prefix client && npx gh-pages -d client/dist -r https://github.com/pusucore/io-etkinlik.git",
+    "start": "npm run start --prefix server",
     "bot": "node bot/index.js",
-    "migrate": "node server/migrate.js",
-    "seed": "node server/seed.js",
-    "channel-id": "node server/scripts/resolve-channel-id.js",
-    "build:client": "vite build --config client/vite.config.js"
+    "migrate": "npm run migrate --prefix server",
+    "seed": "npm run seed --prefix server",
+    "channel-id": "npm run channel-id --prefix server"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.13.1",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
-    "nodemon": "^3.1.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0",
-    "vite": "^5.4.11"
+    "dotenv": "^16.4.5",
+    "gh-pages": "^6.2.0"
   }
 }

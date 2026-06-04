@@ -13,7 +13,7 @@ export default function RegisterScreen({ onSuccess }) {
     try {
       const data = await apiFetch('/api/register', {
         method: 'POST',
-        body: JSON.stringify({ slotio_username: username }),
+        body: JSON.stringify({ slotio_username: username.trim() }),
       });
       onSuccess(data.user);
     } catch (err) {
@@ -24,8 +24,8 @@ export default function RegisterScreen({ onSuccess }) {
   }
 
   return (
-    <div className="app-shell">
-      <h1>Kayıt</h1>
+    <div className="card">
+      <h3>Kayıt</h3>
       <p className="subtitle">Slotio kullanıcı adını gir.</p>
 
       <form onSubmit={submit}>
