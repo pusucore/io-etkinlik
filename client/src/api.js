@@ -1,8 +1,9 @@
-import { API_BASE_URL } from './config';
+import { API_BASE_URL, HAS_API, API_UNAVAILABLE_MSG } from './config';
 import { getInitData } from './telegram';
 
 function apiUrl(path) {
   const p = path.startsWith('/') ? path : `/${path}`;
+  if (!HAS_API) throw new Error(API_UNAVAILABLE_MSG);
   return `${API_BASE_URL}${p}`;
 }
 
@@ -36,40 +37,16 @@ export function apiHeaders(extra = {}) {
 
 export async function apiFetch(path, options = {}) {
   const merged = withInitDataBody(options);
-  const res = await fetch(apiUrl(path), {
-    ...merged,
-    headers: {
-      ...apiHeaders(),
-      ...(merged.headers || {}),
-    },
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || res.statusText);
-  return data;
-}
-
-export function adminHeaders(token) {
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-}
-
-export async function adminFetch(path, token, options = {}) {
-  const baseHeaders = token
-    ? adminHeaders(token)
-    : { 'Content-Type': 'application/json' };
-  const res = await fetch(apiUrl(path), {
-    ...options,
-    headers: {
-      ...baseHeaders,
-      ...(options.headers || {}),
-    },
-  });
-  if (path.includes('/export') && res.ok) {
-    return res;
+  let res;
+  try {
+    res = await fetch(apiUrl(path), {
+      ...merged,
+      headers: { ...apiHeaders(), ...(merged.headers || {}) },
+    });
+  } catch {
+    throw new Error(API_UNAVAILABLE_MSG);
   }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || res.statusText);
+  if (!res.ok) throw new Error(data.error || API_UNAVAILABLE_MSG);
   return data;
 }

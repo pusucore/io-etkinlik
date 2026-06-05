@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "install:all": "npm install --prefix client && npm install --prefix server && npm install",
-    "dev": "concurrently -n api,web,bot \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"npm run bot\"",
+    "install:all": "npm install --prefix client && npm install --prefix server && npm install --prefix backoffice && npm install",
+    "dev": "concurrently -n api,web,admin,bot \"npm run dev --prefix server\" \"npm run dev --prefix client\" \"npm run dev --prefix backoffice\" \"npm run bot\"",
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
     "build": "npm run build --prefix client",

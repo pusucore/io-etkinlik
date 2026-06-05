@@ -7,6 +7,10 @@ const cors = require('cors');
 const { Telegraf } = require('telegraf');
 const { createPublicRouter } = require('./routes/public');
 const { createAdminRouter } = require('./routes/admin');
+const { createBotRouter } = require('./routes/bot');
+const { rateLimit } = require('./middleware/rateLimit');
+const { ensureCampaignRow } = require('./services/campaignService');
+const { ensureScoringRules } = require('./services/scoringService');
 
 const required = ['BOT_TOKEN', 'CHANNEL_ID', 'DATABASE_URL', 'JWT_SECRET', 'ADMIN_PASSWORD'];
 for (const key of required) {
@@ -19,6 +23,8 @@ const DEFAULT_CORS = [
   'https://pusucore.github.io',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'http://localhost:5174',
+  'http://127.0.0.1:5174',
 ];
 
 function getCorsOrigins() {
@@ -47,23 +53,21 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
+app.use(rateLimit({ windowMs: 60000, max: 120 }));
+
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
 
 app.get('/api/health', (_, res) => res.json({ ok: true }));
 
 app.use('/api', createPublicRouter(telegram));
 app.use('/api/admin', createAdminRouter(telegram));
+app.use('/api/bot', createBotRouter());
 
-const clientDist = path.join(__dirname, '../client/dist');
-if (fs.existsSync(clientDist)) {
-  app.use(express.static(clientDist));
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) return next();
-    res.sendFile(path.join(clientDist, 'index.html'), (err) => {
-      if (err) next();
-    });
-  });
-}
+ensureCampaignRow().catch(console.error);
+ensureScoringRules().catch(console.error);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

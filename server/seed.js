@@ -7,9 +7,55 @@ const {
   knockoutTemplate,
 } = require('./constants');
 
-const GROUP_FLAGS = {
-  A: '🇲🇽', B: '🇨🇦', C: '🇧🇷', D: '🇺🇸', E: '🇩🇪', F: '🇳🇱',
-  G: '🇧🇪', H: '🇪🇸', I: '🇫🇷', J: '🇦🇷', K: '🇵🇹', L: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+const TEAM_FLAGS = {
+  Meksika: '🇲🇽',
+  'Güney Afrika': '🇿🇦',
+  'Güney Kore': '🇰🇷',
+  Çekya: '🇨🇿',
+  Kanada: '🇨🇦',
+  'Bosna-Hersek': '🇧🇦',
+  Katar: '🇶🇦',
+  İsviçre: '🇨🇭',
+  Brezilya: '🇧🇷',
+  Fas: '🇲🇦',
+  Haiti: '🇭🇹',
+  İskoçya: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+  ABD: '🇺🇸',
+  Paraguay: '🇵🇾',
+  Avustralya: '🇦🇺',
+  Türkiye: '🇹🇷',
+  Almanya: '🇩🇪',
+  'Curaçao': '🇨🇼',
+  'Fildişi Sahili': '🇨🇮',
+  Ekvador: '🇪🇨',
+  Hollanda: '🇳🇱',
+  Japonya: '🇯🇵',
+  İsveç: '🇸🇪',
+  Tunus: '🇹🇳',
+  Belçika: '🇧🇪',
+  Mısır: '🇪🇬',
+  İran: '🇮🇷',
+  'Yeni Zelanda': '🇳🇿',
+  İspanya: '🇪🇸',
+  'Yeşil Burun Adaları': '🇨🇻',
+  'Suudi Arabistan': '🇸🇦',
+  Uruguay: '🇺🇾',
+  Fransa: '🇫🇷',
+  Senegal: '🇸🇳',
+  Irak: '🇮🇶',
+  Norveç: '🇳🇴',
+  Arjantin: '🇦🇷',
+  Cezayir: '🇩🇿',
+  Avusturya: '🇦🇹',
+  Ürdün: '🇯🇴',
+  Portekiz: '🇵🇹',
+  'Demokratik Kongo': '🇨🇩',
+  Özbekistan: '🇺🇿',
+  Kolombiya: '🇨🇴',
+  İngiltere: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+  Hırvatistan: '🇭🇷',
+  Gana: '🇬🇭',
+  Panama: '🇵🇦',
 };
 
 async function seed() {
@@ -20,7 +66,7 @@ async function seed() {
         await query(
           `INSERT INTO teams (group_code, default_position, name, flag_emoji)
            VALUES ($1, $2, $3, $4)`,
-          [code, i + 1, names[i], GROUP_FLAGS[code] || null]
+          [code, i + 1, names[i], TEAM_FLAGS[names[i]] || null]
         );
       }
     }

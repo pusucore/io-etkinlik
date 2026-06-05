@@ -4,10 +4,19 @@ const fs = require('fs');
 const { pool } = require('./db');
 
 async function migrate() {
-  const file = path.join(__dirname, '..', 'migrations', '001_init.sql');
-  const sql = fs.readFileSync(file, 'utf8');
-  await pool.query(sql);
-  console.log('Migration tamamlandi.');
+  const dir = path.join(__dirname, '..', 'migrations');
+  const files = fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.sql'))
+    .sort();
+
+  for (const file of files) {
+    const sql = fs.readFileSync(path.join(dir, file), 'utf8');
+    console.log(`Calistiriliyor: ${file}`);
+    await pool.query(sql);
+  }
+
+  console.log('Tum migrationlar tamamlandi.');
   await pool.end();
 }
 
